@@ -4432,7 +4432,7 @@ IAUnit.prototype= {
 	}*/
 	var findpositions=function(gd) {
 	    var q=[],c,j,i;
-	// Find all possible moves, with no collision and with units in range
+	// Find all possible moves, with no collision and with units in range 
 	    var COLOR=[GREEN,WHITE,YELLOW,RED];
 	    //log("find positions with color "+c);
 	    for (i=0; i<gd.length; i++) {
@@ -4461,9 +4461,9 @@ IAUnit.prototype= {
 	    q.sort(function(a,b) { return b.n-a.n; });
 	    //for (i=0; i<q.length; i++) this.log(">"+q[i].n+" "+gd[q[i].m].move);
 	    d=q[0].m;
-	    //if (typeof gd[d] == "undefined") log("GD NON DEFINI POUR "+this.name+" "+gd.length+" "+d);
+	    //if (typeof gd[d] == "undefined") log("GD NON DEFINI POUR "+this.name+" "+gd.length+" "+d);	    
 	} else {
-	    for (i=0; i<gd.length; i++)
+	    for (i=0; i<gd.length; i++) 
 		if (gd[i].difficulty!="RED"||gd[i].move.match(/F\d/)) break;
 	    d=i;
 	    //if (typeof gd[d] == "undefined") log("(q=vide) UNDEFINED GD FOR "+this.name+" "+gd.length+" "+possible);
@@ -4495,7 +4495,7 @@ IAUnit.prototype= {
 	    if (c==GREEN) {
 		var e;
 		ready=true;
-		if (typeof scoring=="array") e=scoring[i];
+		if (typeof scoring=="array") e=scoring[i];  
 		else {
 		    this.m=moves[i];
 		    e=this.evaluateposition();
@@ -4504,28 +4504,28 @@ IAUnit.prototype= {
 	    }
 	}
 	this.m=old;
-	if (ready&&scorei>-1) {
+	if (ready&&scorei>-1) { 
 	    if (automove) {
 		var gpm=moves[scorei].split();
 		var tpm=this.m.split();
 		s.path("M "+tpm.dx+" "+tpm.dy+" L "+gpm.dx+" "+gpm.dy).appendTo(VIEWPORT).attr({stroke:this.color,display:TRACE?"block":"none",strokeWidth:"20px",strokeLinecap:"round",strokeDasharray:"1, 30",opacity:0.2,fill:"rgba(0,0,0,0)"}).addClass("trace");
 		this.show();
 
-	    	this.m=moves[scorei];
+	    	this.m=moves[scorei]; 
 		gpm=this.m.split();
 		this.movelog("am-"+Math.floor(300+gpm.dx)+"-"+Math.floor(300+gpm.dy)+"-"+Math.floor((360+Math.floor(gpm.rotate))%360));
 	    }
 	    var mine=this.getmcollisions(this.m);
-	    if (mine.length>0)
+	    if (mine.length>0) 
 		for (i=0; i<mine.length; i++) {
-		    if (typeof OBSTACLES[mine[i]].detonate=="function")
+		    if (typeof OBSTACLES[mine[i]].detonate=="function") 
 			OBSTACLES[mine[i]].detonate(this)
 		    else {
 			this.log("colliding with obstacle");
 			this.resolveocollision(1,[]);
 		    }
 		}
-	    cleanup(this,scorei);
+	    cleanup(this,scorei); 
 	}
 	else { this.m=old; cleanup(this,-1); }
     },
@@ -4539,7 +4539,7 @@ IAUnit.prototype= {
 	    }
 	    var p;
 	    p=setInterval(function() {
-		var m=this.computemaneuver();
+		var m=this.computemaneuver(); 
 		IACOMPUTING--;
 		if (IACOMPUTING==0) $("#npimg").html("&gt;");
 		this.newm=this.getpathmatrix(this.m,this.getdialwi()[m].move);
@@ -4549,7 +4549,7 @@ IAUnit.prototype= {
 	}
 	return this.deferred;
     },
-    showdial: function() {
+    showdial: function() { 	
 	$("#maneuverdial").empty();
 	if (phase>=PLANNING_PHASE) {
 	    if (this.maneuver==-1||this.hasmoved) {
@@ -4595,7 +4595,7 @@ IAUnit.prototype= {
 	    var a = this.actionList[this.action];
 	    var c=A[a].color;
 	    this.actionicon.attr({fill:((this==activeunit)?c:halftone(c))});
-	} else this.actionicon.attr({text:""});
+	} else this.actionicon.attr({text:""});	
     },
     donoaction:function(list,str) {
 	var cmp=function(a,b) {
@@ -4617,7 +4617,7 @@ IAUnit.prototype= {
 		    else if (list[i].type=="EVADE"&&this.candoevade()) {
 			var noone=true;
 			var grlu=this.getenemiesinrange();
-			for (i=0; i<grlu.length; i++)
+			for (i=0; i<grlu.length; i++) 
 			    if (grlu[i].length>0) { noone=false; break; }
 			if (noone) { a=list[i]; break; }
 		    } else if (list[i].type=="FOCUS") {
@@ -4627,10 +4627,9 @@ IAUnit.prototype= {
 		this.resolvenoaction(a,n);
 	    }.bind(this),"donoaction ia");
     },
-    doaction: function(list,str) {
-      // MMETKE     doaction: function(list,str,cando) {
+    doaction: function(list,str,cando) {
 	var cmp=function(a,b) { return b.priority-a.priority; }
-	// MMETKE if (typeof cando=="undefined") cando=this.candoaction;
+	if (typeof cando=="undefined") cando=this.candoaction;
 
 	for (i=0; i<list.length; i++) {
 	    this.setpriority(list[i]);
@@ -4652,7 +4651,7 @@ IAUnit.prototype= {
 		    } else if (list[i].type=="EVADE"&&this.candoevade()) {
 			/*var noone=true;
 			var grlu=this.getenemiesinrange();
-			for (i=0; i<grlu.length; i++)
+			for (i=0; i<grlu.length; i++) 
 			    if (grlu[i].length>0) { noone=false; break; }
 			if (noone) { */
 			    a=list[i]; break; //}
@@ -4688,7 +4687,7 @@ IAUnit.prototype= {
 		var p=this.evaluatetohit(wp,el[i]).tohit;
 		//this.log("power "+p+" "+el[i].name);
 		if (p>power&&!el[i].isdocked) {
-		    t=el[i]; power=p; this.activeweapon=wp;
+		    t=el[i]; power=p; this.activeweapon=wp; 
 		}
 	    }
 	}
@@ -4698,13 +4697,13 @@ IAUnit.prototype= {
       	if (t!=null) return this.selecttargetforattack(this.activeweapon,[t]);
 	//this.log("ia/doattack:canfire but no target");
 	//this.log("ia/doattack "+this.id+":cannot fire");
-	this.addhasfired();
+	this.addhasfired(); 
 	this.cleanupattack();
 	//this.log("noattack");
 	return false;
     },
     getresultmodifiers: function(m,n,from,to) {
-	var mods=this.getdicemodifiers();
+	var mods=this.getdicemodifiers(); 
 	var lm=[];
 	var mm;
 	NOLOG=false;
@@ -4712,10 +4711,10 @@ IAUnit.prototype= {
 	    var d=mods[i];
 	    if (d.from==from&&d.to==to) {
 		if (d.type==MOD_M&&d.req(m,n)) {
-		    if (typeof d.aiactivate!="function"||d.aiactivate(m,n)==true)
+		    if (typeof d.aiactivate!="function"||d.aiactivate(m,n)==true) 
 			modroll(d.f,i,to);
 		} if (d.type==ADD_M&&d.req(m,n)) {
-		    if (typeof d.aiactivate!="function"||d.aiactivate(m,n)==true)
+		    if (typeof d.aiactivate!="function"||d.aiactivate(m,n)==true) 
 			addroll(d.f,i,to);
 		} if (d.type==REROLL_M&&d.req(activeunit,activeunit.weapons[activeunit.activeweapon],targetunit)) {
 		    if (typeof d.aiactivate!="function"||d.aiactivate(m,n)==true) {
@@ -4725,7 +4724,7 @@ IAUnit.prototype= {
 		}
 	    }
 	}
-	return lm;
+	return lm;	
     }
 };
 var sabine_fct=function() {
